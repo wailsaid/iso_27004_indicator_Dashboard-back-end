@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.pfem2.iso27004.Entity.Evaluation;
 import com.pfem2.iso27004.Entity.Indicator;
 import com.pfem2.iso27004.Repository.EvaluationRepository;
@@ -33,7 +32,7 @@ public class EvaluationService {
         String frequency = indicator.getFrequency();
         double acceptableValue = indicator.getAcceptableValue();
         double targetValue = indicator.getTargetValue();
-        String performance = indicator.getperformance();
+        String performance = indicator.getPerformance();
 
         Calendar nextEvaluationDate = Calendar.getInstance();
         nextEvaluationDate.setTime(evaluation.getEvaluationDate());
@@ -111,11 +110,11 @@ public class EvaluationService {
     public void updateEvaluations(Indicator indicator) {
         List<Evaluation> list = this.getAllInicatorEvaluations(indicator.getId());
 
-        String performance = indicator.getperformance();
+        String performance = indicator.getPerformance();
         double acceptableValue = indicator.getAcceptableValue();
         double targetValue = indicator.getTargetValue();
         for (Evaluation e : list) {
-            if (!indicator.getperformance().equals(e.getIndicator().getperformance())) {
+            if (!indicator.getPerformance().equals(e.getIndicator().getPerformance())) {
                 e.setPerformance(-e.getPerformance());
             }
             double value = e.getValue();

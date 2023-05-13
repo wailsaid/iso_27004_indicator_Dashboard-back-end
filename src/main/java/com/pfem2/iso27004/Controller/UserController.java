@@ -34,6 +34,7 @@ public class UserController {
 
     @PostMapping
     public User addUser(@RequestBody User user) {
+        // System.out.println(user.getRole());
         return userservice.addUser(user);
     }
 
