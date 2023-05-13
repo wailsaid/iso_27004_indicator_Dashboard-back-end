@@ -1,10 +1,13 @@
-package com.pfem2.iso27004.user;
+package com.pfem2.iso27004.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.pfem2.iso27004.Entity.User;
+import com.pfem2.iso27004.Repository.UserRepository;
 
 @Service
 public class UserService {

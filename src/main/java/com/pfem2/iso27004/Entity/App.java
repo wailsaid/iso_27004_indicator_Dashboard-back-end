@@ -1,4 +1,4 @@
-package com.pfem2.iso27004.OrgApp;
+package com.pfem2.iso27004.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

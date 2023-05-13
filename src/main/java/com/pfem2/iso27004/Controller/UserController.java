@@ -1,4 +1,4 @@
-package com.pfem2.iso27004.OrgApp;
+package com.pfem2.iso27004.Controller;
 
 import java.util.List;
 
@@ -12,32 +12,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("api/v1/app")
-@CrossOrigin(origins = "http://localhost:4200")
-public class AppContorller {
+import com.pfem2.iso27004.Entity.User;
+import com.pfem2.iso27004.Service.UserService;
 
-    private final AppService appService;
+@RestController
+@RequestMapping("api/v1/user")
+@CrossOrigin(origins = "*")
+public class UserController {
+
+    private final UserService userservice;
 
     @Autowired
-    public AppContorller(AppService appService) {
-        this.appService = appService;
+    public UserController(UserService userservice) {
+        this.userservice = userservice;
     }
 
     @GetMapping
-    public List<App> getApps() {
-        return appService.getAPPs();
+    public List<User> getUsers() {
+        return userservice.getUsers();
     }
 
     @PostMapping
-    public App createApps(@RequestBody App app) {
-        return appService.addApp(app);
+    public User addUser(@RequestBody User user) {
+        return userservice.addUser(user);
     }
 
-    @DeleteMapping(path = "{AppID}")
-    public void getApps(@PathVariable("AppID") Long id) {
-        appService.deleteApp(id);
-        ;
+    @DeleteMapping(path = "{userId}")
+    public void deleteUser(@PathVariable("userId") Long userId) {
+        userservice.deleteUser(userId);
     }
 
 }

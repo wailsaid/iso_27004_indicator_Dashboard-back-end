@@ -1,4 +1,4 @@
-package com.pfem2.iso27004.user;
+package com.pfem2.iso27004.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

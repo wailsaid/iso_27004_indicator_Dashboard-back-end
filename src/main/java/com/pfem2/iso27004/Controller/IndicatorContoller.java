@@ -1,4 +1,4 @@
-package com.pfem2.iso27004.Indicator;
+package com.pfem2.iso27004.Controller;
 
 import java.util.List;
 
@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pfem2.iso27004.Entity.Indicator;
+import com.pfem2.iso27004.Service.IndicatorService;
+
 @RestController
 @RequestMapping("api/v1/indicator")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 
 public class IndicatorContoller {
 
@@ -26,9 +29,19 @@ public class IndicatorContoller {
         this.indicatorService = indicatorService;
     }
 
+    @GetMapping(path = "/not-evaluated")
+    public List<Indicator> getRIndicators() {
+        return indicatorService.getRIndicators();
+    }
+
     @GetMapping
     public List<Indicator> getIndicators() {
         return indicatorService.getIndicators();
+    }
+
+    @PutMapping
+    public Indicator EditIndicator(@RequestBody Indicator indicator) {
+        return indicatorService.editIndicator(indicator);
     }
 
     @GetMapping(path = "{indicatorID}")
@@ -37,13 +50,8 @@ public class IndicatorContoller {
     }
 
     @PostMapping
-    public void addIndicators(@RequestBody Indicator indicator) {
-        indicatorService.addIndicator(indicator);
-    }
-
-    @PutMapping
-    public List<Indicator> editIndicators() {
-        return null;
+    public Indicator addIndicators(@RequestBody Indicator indicator) {
+        return indicatorService.addIndicator(indicator);
     }
 
     @DeleteMapping(path = "{indicatorID}")

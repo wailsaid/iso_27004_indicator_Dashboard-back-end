@@ -1,10 +1,9 @@
-package com.pfem2.iso27004.Indicator;
+package com.pfem2.iso27004.Entity;
 
 import jakarta.persistence.JoinColumn;
 
 import java.util.Set;
 
-import com.pfem2.iso27004.OrgApp.App;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -54,7 +53,7 @@ public class Indicator {
     private String valueUnit;
 
     @Column(nullable = false)
-    private String peformence;
+    private String performance;
 
     @Column(nullable = false)
     private String infoOwner;
@@ -77,7 +76,7 @@ public class Indicator {
 
     public Indicator(Long id, String name, String category, String type, String description, String howtomeasure,
             String benefit, Double targetValue, Double acceptableValue, String frequency, String valueUnit,
-            String peformence, String infoOwner, String infoCollector, String infoCustomer, boolean checked)
+            String performance, String infoOwner, String infoCollector, String infoCustomer, boolean checked)
 
     {
         this.id = id;
@@ -91,7 +90,7 @@ public class Indicator {
         this.acceptableValue = acceptableValue;
         this.frequency = frequency;
         this.valueUnit = valueUnit;
-        this.peformence = peformence;
+        this.performance = performance;
         this.infoOwner = infoOwner;
         this.infoCollector = infoCollector;
         this.infoCustomer = infoCustomer;
@@ -99,7 +98,7 @@ public class Indicator {
     }
 
     public Indicator(String name, String category, String type, String description, String howtomeasure, String benefit,
-            Double targetValue, Double acceptableValue, String frequency, String valueUnit, String peformence,
+            Double targetValue, Double acceptableValue, String frequency, String valueUnit, String performance,
             String infoOwner, String infoCollector, String infoCustomer) {
         this.name = name;
         this.category = category;
@@ -111,7 +110,7 @@ public class Indicator {
         this.acceptableValue = acceptableValue;
         this.frequency = frequency;
         this.valueUnit = valueUnit;
-        this.peformence = peformence;
+        this.performance = performance;
         this.infoOwner = infoOwner;
         this.infoCollector = infoCollector;
         this.infoCustomer = infoCustomer;
@@ -119,7 +118,7 @@ public class Indicator {
 
     public Indicator(Long id, String name, String category, String type, String description, String howtomeasure,
             String benefit, Double targetValue, Double acceptableValue, String frequency, String valueUnit,
-            String peformence, String infoOwner, String infoCollector, String infoCustomer, boolean checked,
+            String performance, String infoOwner, String infoCollector, String infoCustomer, boolean checked,
             Set<App> apps) {
         this.id = id;
         this.name = name;
@@ -132,7 +131,7 @@ public class Indicator {
         this.acceptableValue = acceptableValue;
         this.frequency = frequency;
         this.valueUnit = valueUnit;
-        this.peformence = peformence;
+        this.performance = performance;
         this.infoOwner = infoOwner;
         this.infoCollector = infoCollector;
         this.infoCustomer = infoCustomer;
@@ -228,12 +227,12 @@ public class Indicator {
         this.valueUnit = valueUnit;
     }
 
-    public String getPeformence() {
-        return peformence;
+    public String getperformance() {
+        return performance;
     }
 
     public void setPeformence(String peformence) {
-        this.peformence = peformence;
+        this.performance = peformence;
     }
 
     public String getInfoOwner() {
