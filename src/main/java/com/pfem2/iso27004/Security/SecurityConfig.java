@@ -31,10 +31,16 @@ public class SecurityConfig {
 
         return http.csrf().disable()
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(HttpMethod.GET, "/api/v1/user").permitAll();
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll();
-                    auth.requestMatchers(HttpMethod.GET, "/api/v1/app").hasAuthority("ADMIN");
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/app").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/indicator/**").hasAnyAuthority("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/indicator/**").hasAnyAuthority("ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, "/api/v1/indicator/**").hasAnyAuthority("ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, "/api/v1/indicator/**").hasAnyAuthority("ADMIN");
+
+                    auth.requestMatchers(HttpMethod.GET, "/api/v1/evaluation/**").hasAnyAuthority("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/evaluation/**").hasAnyAuthority("ADMIN");
+
+                    auth.requestMatchers("/api/v1/user/**").hasAuthority("ADMIN");
+                    auth.requestMatchers("/api/v1/app/**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
