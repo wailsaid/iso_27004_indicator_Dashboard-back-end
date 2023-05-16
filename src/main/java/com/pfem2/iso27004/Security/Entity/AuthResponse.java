@@ -1,4 +1,6 @@
-package com.pfem2.iso27004.Entity;
+package com.pfem2.iso27004.Security.Entity;
+
+import com.pfem2.iso27004.Entity.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class AuthResponse {
 
-    private String username;
-    String password;
+    private String token;
+    private User user;
 }

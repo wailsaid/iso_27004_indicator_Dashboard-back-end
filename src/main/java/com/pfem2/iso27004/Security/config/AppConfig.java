@@ -1,4 +1,4 @@
-package com.pfem2.iso27004.Security;
+package com.pfem2.iso27004.Security.config;
 
 import java.util.Properties;
 
@@ -90,7 +90,7 @@ public class AppConfig {
         /*
          * final String username = "iso27004dashboard@gmail.com";
          * final String password = "mcjmptyvxgkbfqdv";
-         * 
+         *
          * int port = 587;
          * String host = "smtp.gmail.com";
          * String fromEmail = "iso27004dashboard@gmail.com";

@@ -1,15 +1,16 @@
-package com.pfem2.iso27004.auth;
+package com.pfem2.iso27004.Security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.pfem2.iso27004.Entity.AuthenticationRequest;
+import com.pfem2.iso27004.Security.Entity.AuthRequest;
+import com.pfem2.iso27004.Security.Entity.AuthResponse;
+import com.pfem2.iso27004.Security.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,7 +24,7 @@ public class authController {
     }
 
     @PostMapping
-    public String testdStri(@RequestBody AuthenticationRequest req) {
-        return authService.authenticate(req);
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
+        return ResponseEntity.ok(authService.authenticate(req));
     }
 }

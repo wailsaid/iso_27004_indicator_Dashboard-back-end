@@ -84,4 +84,8 @@ public class IndicatorService {
         return this.indicatorRepository.save(indicator);
     }
 
+    public List<Indicator> getIndicatorNoEval() {
+        return this.getIndicatorNoEval();
+    }
+
 }

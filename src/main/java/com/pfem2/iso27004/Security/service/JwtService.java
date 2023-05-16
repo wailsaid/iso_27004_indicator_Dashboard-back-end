@@ -1,4 +1,4 @@
-package com.pfem2.iso27004.Security;
+package com.pfem2.iso27004.Security.service;
 
 import java.security.Key;
 import java.util.Date;
@@ -55,7 +55,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 9))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

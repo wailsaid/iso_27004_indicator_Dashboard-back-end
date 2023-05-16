@@ -10,23 +10,23 @@ import org.springframework.stereotype.Service;
 
 import com.pfem2.iso27004.Entity.User;
 import com.pfem2.iso27004.Repository.UserRepository;
-import com.pfem2.iso27004.Security.JwtService;
+import com.pfem2.iso27004.Security.service.JwtService;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
+    // private final JwtService jwtService;
+    // private final AuthenticationManager authenticationManager;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
             AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-        this.authenticationManager = authenticationManager;
+        // this.jwtService = jwtService;
+        // this.authenticationManager = authenticationManager;
     }
 
     public List<User> getUsers() {
@@ -58,5 +58,13 @@ public class UserService {
         }
         userRepository.deleteById(userId);
 
+    }
+
+    public Optional<User> getByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public List<String> getAdminEmails() {
+        return this.userRepository.findAllAdminEmails();
     }
 }

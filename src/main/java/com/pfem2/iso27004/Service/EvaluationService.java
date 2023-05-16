@@ -131,7 +131,30 @@ public class EvaluationService {
 
             e.setStatus(status);
 
+            Calendar nextEvaluationDate = Calendar.getInstance();
+            nextEvaluationDate.setTime(e.getEvaluationDate());
+            String frequency = indicator.getFrequency();
+            switch (frequency) {
+                case "monthly":
+                    nextEvaluationDate.add(Calendar.MONTH, 1);
+                    break;
+                case "quarterly":
+                    nextEvaluationDate.add(Calendar.MONTH, 3);
+                    break;
+                case "annually":
+                    nextEvaluationDate.add(Calendar.YEAR, 1);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Invalid frequency: " + frequency);
+            }
+
+            e.setNextEvaluationDate(nextEvaluationDate.getTime());
+
             this.evaluationRepository.save(e);
         }
+    }
+
+    public List<Evaluation> getNextEvaluation(int days) {
+        return this.evaluationRepository.nextEvaluationByDay(days);
     }
 }
