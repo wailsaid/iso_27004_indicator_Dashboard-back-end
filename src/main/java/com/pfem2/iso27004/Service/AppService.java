@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.pfem2.iso27004.Entity.App;
 import com.pfem2.iso27004.Repository.AppRepository;
+import com.pfem2.iso27004.Security.Errors.BadrequestException;
 
 @Service
 public class AppService {
@@ -33,7 +34,8 @@ public class AppService {
 
         Optional<App> app = appRepository.findById(id);
         if (!app.isPresent()) {
-            throw new IllegalStateException("App with id: " + id + "does not exists");
+            // throw new IllegalStateException("App with id: " + id + "does not exists");
+            throw new BadrequestException("App with id: " + id + " does not exists");
         }
 
         indicatorService.deleteIndicatorApp(app.get());

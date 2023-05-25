@@ -2,7 +2,9 @@ package com.pfem2.iso27004.Service;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.function.Predicate;
 
+import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.pfem2.iso27004.Entity.Evaluation;
@@ -154,7 +156,19 @@ public class EvaluationService {
         }
     }
 
-    public List<Evaluation> getNextEvaluation(int days) {
-        return this.evaluationRepository.nextEvaluationByDay(days);
-    }
+    /*
+     * public List<Evaluation> getNextEvaluation(int days) {
+     * this.evaluationRepository.findLatestEvaluations().removeIf(new
+     * Predicate<Evaluation>() {
+     * 
+     * @Override
+     * public boolean test(Evaluation arg0) {
+     * Eva
+     * 
+     * }
+     * 
+     * });
+     * return null;
+     * }
+     */
 }

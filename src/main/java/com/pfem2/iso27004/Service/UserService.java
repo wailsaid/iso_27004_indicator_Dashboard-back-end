@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.pfem2.iso27004.Entity.User;
 import com.pfem2.iso27004.Repository.UserRepository;
+import com.pfem2.iso27004.Security.Errors.BadrequestException;
 import com.pfem2.iso27004.Security.service.JwtService;
 
 @Service
@@ -44,7 +44,8 @@ public class UserService {
     public User addUser(User user) {
         Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
         if (userByEmail.isPresent()) {
-            throw new IllegalStateException("E-mail already exist");
+            // throw new IllegalStateException("E-mail already exist");
+            throw new BadrequestException("E-mail already exist");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
@@ -54,7 +55,11 @@ public class UserService {
     public void deleteUser(Long userId) {
         boolean exist = userRepository.existsById(userId);
         if (!exist) {
-            throw new IllegalStateException("User with ID:" + userId + " does not exist");
+            // throw new IllegalStateException("User with ID:" + userId + " does not
+            // exist");
+            throw new BadrequestException("User with ID:" + userId + " does not exist");
+            // throw new
+            // HttpClientErrorException(HttpStatusCode.valueOf(400),"HttpClientErrorException");
         }
         userRepository.deleteById(userId);
 
