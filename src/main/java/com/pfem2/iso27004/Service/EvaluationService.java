@@ -2,11 +2,10 @@ package com.pfem2.iso27004.Service;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.function.Predicate;
 
-import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.pfem2.iso27004.Entity.Evaluation;
 import com.pfem2.iso27004.Entity.Indicator;
 import com.pfem2.iso27004.Repository.EvaluationRepository;
@@ -111,7 +110,6 @@ public class EvaluationService {
 
     public void updateEvaluations(Indicator indicator) {
         List<Evaluation> list = this.getAllInicatorEvaluations(indicator.getId());
-
         String performance = indicator.getPerformance();
         double acceptableValue = indicator.getAcceptableValue();
         double targetValue = indicator.getTargetValue();
@@ -160,13 +158,13 @@ public class EvaluationService {
      * public List<Evaluation> getNextEvaluation(int days) {
      * this.evaluationRepository.findLatestEvaluations().removeIf(new
      * Predicate<Evaluation>() {
-     * 
+     *
      * @Override
      * public boolean test(Evaluation arg0) {
      * Eva
-     * 
+     *
      * }
-     * 
+     *
      * });
      * return null;
      * }

@@ -40,14 +40,18 @@ public class AuthService {
                 }
 
                 User user = userService.getByUsername(request.getUsername()).orElseThrow();
-
+                User userSend = User.builder()
+                                .email(user.getEmail())
+                                .username(user.getUsername())
+                                .role(user.getRole())
+                                .build();
                 String jwtToken = jwtService.generateToken(user);
                 // var refreshToken = jwtService.generateRefreshToken(user);
                 // revokeAllUserTokens(user);
                 // saveUserToken(user, jwtToken);
                 return AuthResponse.builder()
                                 .token(jwtToken)
-                                .user(user)
+                                .user(userSend)
                                 .build();
                 // return jwtToken;
                 // .refreshToken(refreshToken)

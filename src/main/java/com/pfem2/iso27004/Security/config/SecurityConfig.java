@@ -35,6 +35,7 @@ public class SecurityConfig {
         http.cors();
         return http
                 .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers(HttpMethod.GET, "/generate-pdf").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/indicator/**").hasAnyAuthority("ADMIN", "USER");
                     auth.requestMatchers(HttpMethod.POST, "/api/v1/indicator/**").hasAnyAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.PUT, "/api/v1/indicator/**").hasAnyAuthority("ADMIN");
@@ -61,10 +62,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:4200"); // Replace with the appropriate Angular app URL
+        configuration.addAllowedOrigin("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(true);
+        // configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -64,8 +64,7 @@ public class ScheduleTasks {
          */
     }
 
-    // @Scheduled(fixedDelay = 1000 * 60 * 60)
-    @Scheduled(cron = "0 0 9 1 * *")
+    @Scheduled(cron = "0 0 0 1 * *")
     public void MounthlyNotice() {
         List<String> Emails = this.userService.getAdminEmails();
         List<Indicator> indicatorsM = indicatorService.nextMonthIndicator();
@@ -82,7 +81,7 @@ public class ScheduleTasks {
         }
     }
 
-    // @Scheduled(fixedDelay = 1000 * 60 * 60)
+    @Scheduled(cron = "0 0 0 * * MON")
     public void WeeklyNotice() {
         List<String> Emails = this.userService.getAdminEmails();
         List<Indicator> indicatorsM = indicatorService.nextWeekIndicator();
@@ -101,29 +100,33 @@ public class ScheduleTasks {
         }
     }
 
-    @Scheduled(fixedDelay = 1000 * 60 * 60)
+    @Scheduled(cron = "0 0 9 * * *")
     public void DailyNotice() {
         List<String> Emails = this.userService.getAdminEmails();
         List<Indicator> indicatorso = indicatorService.overdueIndicator();
-        List<Indicator> indicatorsn = indicatorService.getIndicatorNoEval();
+        // List<Indicator> indicatorsn = indicatorService.getIndicatorNoEval();
         Context contxt = new Context();
         if (indicatorso.size() > 0) {
-            contxt.setVariable("due", true);
+
             contxt.setVariable("deadline", "over Due");
             contxt.setVariable("indicators", indicatorso);
+            String body = templateEngine.process("emailTemplate", contxt);
 
-        }
-        String body = templateEngine.process("emailTemplate", contxt);
-        if (indicatorsn.size() > 0) {
-            contxt.setVariable("pending", true);
-            contxt.setVariable("notice", "Pending Evaluation");
-            contxt.setVariable("indicators", indicatorsn);
-        }
-        if (indicatorso.size() > 0 || indicatorsn.size() > 0) {
             for (String email : Emails) {
                 sendMail(email, "Indicators that need Evalaution", body);
             }
         }
+        /*
+         * if (indicatorsn.size() > 0) {
+         * contxt.setVariable("pending", true);
+         * contxt.setVariable("notice", "Pending Evaluation");
+         * contxt.setVariable("indicators", indicatorsn);
+         * }
+         */
+        /*
+         * if (indicatorso.size() > 0 || indicatorsn.size() > 0) {
+         * }
+         */
 
     }
 
@@ -136,6 +139,7 @@ public class ScheduleTasks {
 
             ClassPathResource imageResource = new ClassPathResource("static/images/logo.png");
             messageHelper.addInline("logo", imageResource);
+
             messageHelper.setText(body, true); // Set the HTML content and enable HTML rendering
 
             // Send the email

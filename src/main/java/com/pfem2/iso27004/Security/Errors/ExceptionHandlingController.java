@@ -12,5 +12,4 @@ public class ExceptionHandlingController {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
-    // Add other exception handlers as needed...
 }

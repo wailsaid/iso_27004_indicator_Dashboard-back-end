@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ISO 27004 Indicators repport</title>
+  <style>
+    /* CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 10px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      max-width: 200px;
+    }
+
+    .content {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .message {
+      margin-bottom: 20px;
+    }
+
+    .items {
+      margin-bottom: 20px;
+    }
+
+    .items ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h2 style="display: inline-block; margin-right: 250px;">ISO 27004 Indicators Repport
+    </h2>
+    <img style="display: inline-block;" src="../static/images/logo.png"
+      th:src="@{src/main/resources/static/images/logo.png}" alt="Logo" width="100px" />
+  </header>
+
+  <section style="margin-bottom: auto;" th:each="item : ${evaluations}">
+
+    <div style="display: inline-block; width: 75%;">
+      <h3 th:text="${item.key.getIndicator().getName()}"></h3>
+      <h4>Details:</h4>
+      <ul>
+        <li>
+          <strong>Name:</strong>
+          <span th:text="${item.key.getIndicator().getName()}"></span>
+        </li>
+
+        <li>
+          <strong>Category:</strong>
+          <span th:text="${item.key.getIndicator().getCategory()}"></span>
+        </li>
+        <li>
+          <strong>Type:</strong>
+          <span th:text="${item.key.getIndicator().getType()}"></span>
+        </li>
+        <li>
+          <strong>Frequency:</strong>
+          <span th:text="${item.key.getIndicator().getFrequency()}"></span>
+        </li>
+        <li>
+          <strong>Benefit:</strong>
+          <span th:text="${item.key.getIndicator().getBenefit()}"></span>
+        </li>
+        <li>
+          <strong>Description:</strong>
+          <span th:text="${item.key.getIndicator().getDescription()}"></span>
+        </li>
+        <li>
+          <strong>How to Measure:</strong>
+          <span th:text="${item.key.getIndicator().getHowtomeasure()}"></span>
+
+        </li>
+
+        <li>
+          <strong>Information Owner:</strong>
+          <span th:text="${item.key.getIndicator().getInfoOwner()}"></span>
+        </li>
+        <li>
+          <strong>Information Collector:</strong>
+          <span th:text="${item.key.getIndicator().getInfoCollector()}"></span>
+        </li>
+        <li>
+          <strong>Information Customer:</strong>
+          <span th:text="${item.key.getIndicator().getInfoCustomer()}"></span>
+        </li>
+
+        <li>
+          <strong>Target Value:</strong>
+          <span th:text="${item.key.getIndicator().getTargetValue()}"></span>
+          (<span th:text="${item.key.getIndicator().getValueUnit()}"></span>)
+        </li>
+        <li>
+          <strong>Acceptable Value:</strong>
+          <span th:text="${item.key.getIndicator().getAcceptableValue()}"></span>
+          (<span th:text="${item.key.getIndicator().getValueUnit()}"></span>)
+        </li>
+        <li th:if="${item.key.getIndicator().getApps().size() >0}">
+          <strong>Concerned Applications:</strong>
+          <ul>
+            <li th:each="app: ${item.key.getIndicator().getApps()}" th:text="${app.getName()}"></li>
+          </ul>
+        </li>
+        <span th:unless="${item.key.getIndicator().getApps().size() >0}"></span>
+
+      </ul>
+    </div>
+
+    <div style="display: inline-block; width: 40%;"  >
+
+      <h4>
+        Latest Evaluation: <span th:text="${item.key.getValue()}"></span>
+      </h4>
+
+
+      <h4>Evaluation History:</h4>
+    <table style="border-collapse: collapse;" border="1">
+      <thead>
+        <tr>
+          <th>Evaluation Date</th>
+          <th>Value</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tr th:each=" evals: ${item.value}">
+        <td style="padding: 5px;" th:text="${evals.getEvaluationDate().toString().substring(0,10)}"></td>
+        <td style="padding: 5px;" th:text="${evals.getValue()}"></td>
+        <td style="padding: 5px;" th:text="${evals.getStatus()}"></td>
+      </tr>
+    </table>
+
+</div>
+  </section>
+
+
+</body>
+
+</html>

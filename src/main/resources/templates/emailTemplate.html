@@ -15,9 +15,9 @@
         }
 
         .container {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 10px;
         }
 
         .logo {
@@ -56,13 +56,14 @@
     </style>
 </head>
 
-<body>
+<body style="font-size: 15px; color: #333;">
     <div class="container">
         <div class="content">
             <div class="logo">
-                <img width="100px" src="../static/images/logo.png" alt="Logo"/>
+
+                <img src="../static/images/logo.png" th:src="@{src/main/resources/static/images/logo.png}" alt="Logo" width="100px" />
             </div>
-            <div class="attention" th:if="${due}">
+            <div class="attention">
 
                 <p class="message">This email serves as a reminder regarding the evaluation of indicators. We would like to
                     bring the following Indicators to your attention:</p>
@@ -76,19 +77,7 @@
                 thees indicatos are <strong> <span th:text="${deadline}"></span> </strong>
             </p>
             </div>
-            <div class="attention" th:if="${pending}">
-                <p class="message">This email serves as a reminder regarding the evaluation of indicators. We would like to
-                    bring the following Indicators to your attention:</p>
-            <div class="items">
-                <ul>
-                    <li th:each="item : ${indicators}" th:text="${item.getName()}"></li>
 
-                </ul>
-            </div>
-            <p class="attention">
-                thees indicatos are <strong> <span th:text="${notice}"></span> </strong>
-            </p>
-            </div>
 
             <p class="attention">We kindly request your immediate attention to these matters.
                 Please ensure that the evaluations for the indicators are completed in time.
