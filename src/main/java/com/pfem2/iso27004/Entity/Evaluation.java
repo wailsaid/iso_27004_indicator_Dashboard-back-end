@@ -2,6 +2,7 @@ package com.pfem2.iso27004.Entity;
 
 import java.util.Date;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,5 +54,9 @@ public class Evaluation {
     @ManyToOne
     @JoinColumn(name = "indicator_id")
     private Indicator indicator;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User resp;
 
 }

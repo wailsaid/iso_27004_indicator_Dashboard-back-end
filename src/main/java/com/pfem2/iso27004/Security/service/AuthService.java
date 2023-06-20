@@ -51,7 +51,7 @@ public class AuthService {
                 // saveUserToken(user, jwtToken);
                 return AuthResponse.builder()
                                 .token(jwtToken)
-                                .user(userSend)
+                                .user(user)
                                 .build();
                 // return jwtToken;
                 // .refreshToken(refreshToken)

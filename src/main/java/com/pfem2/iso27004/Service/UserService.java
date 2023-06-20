@@ -7,24 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.pfem2.iso27004.Entity.Collector;
 import com.pfem2.iso27004.Entity.User;
+import com.pfem2.iso27004.Repository.CollectorRepository;
 import com.pfem2.iso27004.Repository.UserRepository;
 import com.pfem2.iso27004.Security.Errors.BadrequestException;
 import com.pfem2.iso27004.Security.service.JwtService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final CollectorRepository collectorRepository;
+
     private final PasswordEncoder passwordEncoder;
     // private final JwtService jwtService;
     // private final AuthenticationManager authenticationManager;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtService,
-            AuthenticationManager authenticationManager) {
+            AuthenticationManager authenticationManager, CollectorRepository collectorRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.collectorRepository = collectorRepository;
         // this.jwtService = jwtService;
         // this.authenticationManager = authenticationManager;
     }
@@ -71,5 +79,15 @@ public class UserService {
 
     public List<String> getAdminEmails() {
         return this.userRepository.findAllAdminEmails();
+    }
+
+    public Collector setCollector(Collector c) {
+        return this.collectorRepository.save(c);
+    }
+
+  
+
+    public List<Collector> getCollectors() {
+        return this.collectorRepository.findAll();
     }
 }

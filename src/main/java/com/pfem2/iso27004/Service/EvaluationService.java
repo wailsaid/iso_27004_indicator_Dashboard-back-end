@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.pfem2.iso27004.Entity.Evaluation;
 import com.pfem2.iso27004.Entity.Indicator;
 import com.pfem2.iso27004.Repository.EvaluationRepository;
+import com.pfem2.iso27004.Repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -16,10 +17,12 @@ import jakarta.transaction.Transactional;
 public class EvaluationService {
 
     private final EvaluationRepository evaluationRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public EvaluationService(EvaluationRepository evaluationRepository) {
+    public EvaluationService(EvaluationRepository evaluationRepository, UserRepository userRepository) {
         this.evaluationRepository = evaluationRepository;
+        this.userRepository = userRepository;
     }
 
     public Evaluation SaveEvaluation(Evaluation evaluation) {

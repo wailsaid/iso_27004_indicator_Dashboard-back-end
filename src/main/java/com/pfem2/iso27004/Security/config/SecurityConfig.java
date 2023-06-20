@@ -44,9 +44,9 @@ public class SecurityConfig {
 
                     auth.requestMatchers(HttpMethod.GET, "/api/v1/evaluation/**").hasAnyAuthority("ADMIN", "USER",
                             "COLLECTOR");
-                    auth.requestMatchers(HttpMethod.POST, "/api/v1/evaluation/**").hasAnyAuthority("COLLECTOR");
+                    auth.requestMatchers(HttpMethod.POST, "/api/v1/evaluation/**").hasAuthority("COLLECTOR");
 
-                    // auth.requestMatchers("/api/v1/user/**").permitAll();
+                    auth.requestMatchers("/api/v1/user/collector/**").permitAll();
                     auth.requestMatchers("/api/v1/user/**").hasAuthority("ADMIN");
                     auth.requestMatchers("/api/v1/app/**").hasAuthority("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/auth/**").permitAll();
