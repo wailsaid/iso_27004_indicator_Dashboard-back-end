@@ -29,6 +29,9 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     @Query("SELECT e FROM Evaluation e WHERE e.indicator.checked=true and e.evaluationDate = (SELECT MAX(e2.evaluationDate) FROM Evaluation e2 WHERE e2.indicator.id = e.indicator.id)")
     List<Evaluation> findDashboardIndicator();
 
+    @Query("DELETE FROM Evaluation e WHERE e.resp.id = :uid")
+    void deletebyResp(@Param("uid") Long id);
+
     //// @Query("SELECT e FROM Evaluation e WHERE e.nextEvaluationDate =
     //// DATE_ADD(CURRENT_DATE, :days, 'DAY')")
     // List<Evaluation> nextEvaluationByDay(@Param("days") int days);

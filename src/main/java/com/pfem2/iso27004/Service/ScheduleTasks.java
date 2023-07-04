@@ -1,5 +1,7 @@
 package com.pfem2.iso27004.Service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -14,6 +16,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.pfem2.iso27004.Entity.Collector;
+import com.pfem2.iso27004.Entity.Evaluation;
 import com.pfem2.iso27004.Entity.Indicator;
 
 @Configuration
@@ -22,113 +26,125 @@ public class ScheduleTasks {
 
     private final JavaMailSender emailSender;
     private final UserService userService;
-    private final IndicatorService indicatorService;
+    private final EvaluationService evaluationService;
     private final TemplateEngine templateEngine;
 
     @Autowired
-    public ScheduleTasks(JavaMailSender emailSender, UserService userService, IndicatorService indicatorService,
+    public ScheduleTasks(JavaMailSender emailSender, UserService userService, EvaluationService evaluationService,
             TemplateEngine templateEngine) {
         this.emailSender = emailSender;
         this.userService = userService;
-        this.indicatorService = indicatorService;
+        this.evaluationService = evaluationService;
         this.templateEngine = templateEngine;
     }
 
     // @Scheduled(cron = "0 0 0 * * ?")
-    // @Scheduled(fixedDelay = 1000 * 60 * 60)
-    @Scheduled(cron = "0 0 9 1,20 * *")
+    //
+    // @Scheduled(cron = "0 0 9 1,20 * *")
+    @Scheduled(fixedDelay = 1000 * 60 * 3)
     public void scheduleFixedDelayTask() {
-        /*
-         * List<String> Emails = this.userService.getAdminEmails();
-         * // System.out.println( "Fixed delay task - " + System.currentTimeMillis() /
-         * // 1000);
-         *
-         * List<Indicator> indicatorsW = indicatorService.nextWeekIndicator();
-         * if (indicatorsW.size() > 0) {
-         *
-         * }
-         * List<Indicator> indicatorsOverDue = indicatorService.overdueIndicator();
-         * if (indicatorsOverDue.size() > 0) {
-         *
-         * }
-         *
-         * // List<Evaluation> eval15 = evaluationService.getNextEvaluation(15);
-         *
-         * // List<Evaluation> evaltoday = evaluationService.getNextEvaluation(0);
-         * List<Indicator> indicators = indicatorService.getIndicatorNoEval();
-         * if (indicators.size() > 0) {
-         * SendImidiateNotice(indicators, Emails);
-         * }
-         *
-         * // System.out.println("send seccusful");
-         */
-    }
+        List<Collector> collectors = this.userService.getCollectors();
+        for (Collector c : collectors) {
+            List<Indicator> l = new ArrayList<Indicator>();
+            System.out.println(c.getCollector());
+            for (Indicator i : c.getIndicator()) {
 
-    @Scheduled(cron = "0 0 0 1 * *")
-    public void MounthlyNotice() {
-        List<String> Emails = this.userService.getAdminEmails();
-        List<Indicator> indicatorsM = indicatorService.nextMonthIndicator();
-        if (indicatorsM.size() > 0) {
+                Evaluation e = this.evaluationService.getLatestInicatorEvaluation(i.getId());
 
-            Context contxt = new Context();
-            contxt.setVariable("deadline", "due for next Mounth");
-            contxt.setVariable("indicators", indicatorsM);
-            String body = templateEngine.process("emailTemplate", contxt);
-            for (String email : Emails) {
-                sendMail(email, "Indicators Due for Next Mounth", body);
+                Calendar nextMonth = Calendar.getInstance();
+                nextMonth.add(Calendar.MONTH, 1);
+                Calendar nextEvalDate = Calendar.getInstance();
+                nextEvalDate.setTime(e.getNextEvaluationDate());
+
+                if (nextEvalDate.get(Calendar.YEAR) == nextMonth.get(Calendar.YEAR)
+                        && nextEvalDate.get(Calendar.MONTH) == nextMonth.get(Calendar.MONTH)) {
+                    if (!l.contains(i)) {
+                        l.add(i);
+
+                    }
+
+                }
             }
+            if (l.size() > 0) {
+                Context contxt = new Context();
+                contxt.setVariable("deadline", "due for next Mounth");
+                contxt.setVariable("indicators", l);
+                String body = templateEngine.process("emailTemplate", contxt);
 
-        }
-    }
+                sendMail(c.getCollector().getEmail(), "Indicators Due for Next Mounth", body);
 
-    @Scheduled(cron = "0 0 0 * * MON")
-    public void WeeklyNotice() {
-        List<String> Emails = this.userService.getAdminEmails();
-        List<Indicator> indicatorsM = indicatorService.nextWeekIndicator();
-        if (indicatorsM.size() > 0) {
-
-            Context contxt = new Context();
-            contxt.setVariable("due", true);
-
-            contxt.setVariable("deadline", "due for next Week");
-            contxt.setVariable("indicators", indicatorsM);
-            String body = templateEngine.process("emailTemplate", contxt);
-            for (String email : Emails) {
-                sendMail(email, "Indicators Due for Next Week", body);
-            }
-
-        }
-    }
-
-    @Scheduled(cron = "0 0 9 * * *")
-    public void DailyNotice() {
-        List<String> Emails = this.userService.getAdminEmails();
-        List<Indicator> indicatorso = indicatorService.overdueIndicator();
-        // List<Indicator> indicatorsn = indicatorService.getIndicatorNoEval();
-        Context contxt = new Context();
-        if (indicatorso.size() > 0) {
-
-            contxt.setVariable("deadline", "over Due");
-            contxt.setVariable("indicators", indicatorso);
-            String body = templateEngine.process("emailTemplate", contxt);
-
-            for (String email : Emails) {
-                sendMail(email, "Indicators that need Evalaution", body);
             }
         }
-        /*
-         * if (indicatorsn.size() > 0) {
-         * contxt.setVariable("pending", true);
-         * contxt.setVariable("notice", "Pending Evaluation");
-         * contxt.setVariable("indicators", indicatorsn);
-         * }
-         */
-        /*
-         * if (indicatorso.size() > 0 || indicatorsn.size() > 0) {
-         * }
-         */
 
     }
+
+    /*
+     * @Scheduled(cron = "0 0 0 1 * *")
+     * public void MounthlyNotice() {
+     * List<String> Emails = this.userService.getAdminEmails();
+     * List<Indicator> indicatorsM = indicatorService.nextMonthIndicator();
+     * if (indicatorsM.size() > 0) {
+     *
+     * Context contxt = new Context();
+     * contxt.setVariable("deadline", "due for next Mounth");
+     * contxt.setVariable("indicators", indicatorsM);
+     * String body = templateEngine.process("emailTemplate", contxt);
+     * for (String email : Emails) {
+     * sendMail(email, "Indicators Due for Next Mounth", body);
+     * }
+     *
+     * }
+     * }
+     *
+     * @Scheduled(cron = "0 0 0 * * MON")
+     * public void WeeklyNotice() {
+     * List<String> Emails = this.userService.getAdminEmails();
+     * List<Indicator> indicatorsM = indicatorService.nextWeekIndicator();
+     * if (indicatorsM.size() > 0) {
+     *
+     * Context contxt = new Context();
+     * contxt.setVariable("due", true);
+     *
+     * contxt.setVariable("deadline", "due for next Week");
+     * contxt.setVariable("indicators", indicatorsM);
+     * String body = templateEngine.process("emailTemplate", contxt);
+     * for (String email : Emails) {
+     * sendMail(email, "Indicators Due for Next Week", body);
+     * }
+     *
+     * }
+     * }
+     *
+     * @Scheduled(cron = "0 0 9 * * *")
+     * public void DailyNotice() {
+     * List<String> Emails = this.userService.getAdminEmails();
+     * List<Indicator> indicatorso = indicatorService.overdueIndicator();
+     * // List<Indicator> indicatorsn = indicatorService.getIndicatorNoEval();
+     * Context contxt = new Context();
+     * if (indicatorso.size() > 0) {
+     *
+     * contxt.setVariable("deadline", "over Due");
+     * contxt.setVariable("indicators", indicatorso);
+     * String body = templateEngine.process("emailTemplate", contxt);
+     *
+     * for (String email : Emails) {
+     * sendMail(email, "Indicators that need Evalaution", body);
+     * }
+     * }
+     * /*
+     * if (indicatorsn.size() > 0) {
+     * contxt.setVariable("pending", true);
+     * contxt.setVariable("notice", "Pending Evaluation");
+     * contxt.setVariable("indicators", indicatorsn);
+     * }
+     */
+    /*
+     * if (indicatorso.size() > 0 || indicatorsn.size() > 0) {
+     * }
+     *
+     *
+     * }
+     */
 
     public void sendMail(String to, String subject, String body) {
         try {

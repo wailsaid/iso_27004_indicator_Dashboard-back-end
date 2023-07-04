@@ -2,11 +2,9 @@ package com.pfem2.iso27004.Entity;
 
 import java.util.Date;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -31,7 +29,7 @@ import lombok.experimental.Accessors;
 public class Evaluation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @EqualsAndHashCode.Include
     private Long id;
 

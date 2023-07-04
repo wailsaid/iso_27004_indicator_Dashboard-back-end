@@ -24,7 +24,16 @@ public class DepartementService {
         return this.departementRepository.save(dep);
     }
 
+    public void saveAllDepartement(List<Departement> deps) {
+        this.departementRepository.saveAll(deps);
+    }
+
     public void delDepartement(Long dep) {
+        if (!this.departementRepository.existsById(dep)) {
+            System.out.println("dep not exist");
+        }
+        Departement d = this.departementRepository.findById(dep).orElse(null);
+        d.getIndicators().removeAll(d.getIndicators());
         this.departementRepository.deleteById(dep);
     }
 

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pfem2.iso27004.Entity.App;
+import com.pfem2.iso27004.Entity.Collector;
+import com.pfem2.iso27004.Entity.Departement;
 import com.pfem2.iso27004.Entity.Evaluation;
 import com.pfem2.iso27004.Entity.Indicator;
 import com.pfem2.iso27004.Repository.IndicatorRepository;
@@ -20,11 +22,16 @@ public class IndicatorService {
 
     private final IndicatorRepository indicatorRepository;
     private final EvaluationService evaluationService;
+    private final UserService userService;
+    private final DepartementService departementService;
 
     @Autowired
-    public IndicatorService(IndicatorRepository indicatorRepository, EvaluationService evaluationService) {
+    public IndicatorService(IndicatorRepository indicatorRepository, EvaluationService evaluationService,
+            UserService userService, DepartementService departementService) {
         this.indicatorRepository = indicatorRepository;
         this.evaluationService = evaluationService;
+        this.userService = userService;
+        this.departementService = departementService;
     }
 
     public List<Indicator> getIndicators() {
@@ -44,7 +51,18 @@ public class IndicatorService {
         }
         Indicator indicator = indicatorRepository.findById(id).orElseThrow();
 
-        evaluationService.deleteAllEvaluationsByIndicator(id);
+        List<Collector> collectors = this.userService.getCollectors();
+        for (Collector c : collectors) {
+            c.getIndicator().remove(indicator);
+        }
+        List<Departement> departements = this.departementService.getDepartements();
+        for (Departement d : departements) {
+            d.getIndicators().remove(indicator);
+        }
+        this.userService.saveALLCollectors(collectors);
+        this.departementService.saveAllDepartement(departements);
+        this.evaluationService.deleteAllEvaluationsByIndicator(id);
+
         indicatorRepository.delete(indicator);
     }
 

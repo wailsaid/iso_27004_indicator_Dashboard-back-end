@@ -3,6 +3,7 @@ package com.pfem2.iso27004.Entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -31,7 +32,7 @@ public class Collector {
     @JoinColumn(name = "user_id")
     private User collector;
 
-    @ManyToMany
-    @JoinTable(name = "collector_indicator", joinColumns = @JoinColumn(name = "indicator_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "collector_indicator", joinColumns = @JoinColumn(name = "indicator_id"), inverseJoinColumns = @JoinColumn(name = "collector_id"))
     private List<Indicator> indicator;
 }

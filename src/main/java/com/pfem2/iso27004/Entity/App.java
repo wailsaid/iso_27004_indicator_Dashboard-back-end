@@ -3,9 +3,7 @@ package com.pfem2.iso27004.Entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,8 +19,7 @@ import lombok.NoArgsConstructor;
 public class App {
 
     @Id
-    @SequenceGenerator(name = "app_sequence", sequenceName = "app_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_sequence")
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false)

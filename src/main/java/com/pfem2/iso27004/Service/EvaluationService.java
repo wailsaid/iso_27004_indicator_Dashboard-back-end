@@ -157,6 +157,18 @@ public class EvaluationService {
         }
     }
 
+    public List<Evaluation> getAll() {
+        return this.evaluationRepository.findAll();
+    }
+
+    public void deleteEvaluation(Evaluation evaluation) {
+        this.evaluationRepository.delete(evaluation);
+    }
+
+    public void getDeleteByResp(Long userId) {
+        this.evaluationRepository.deletebyResp(userId);
+    }
+
     /*
      * public List<Evaluation> getNextEvaluation(int days) {
      * this.evaluationRepository.findLatestEvaluations().removeIf(new
