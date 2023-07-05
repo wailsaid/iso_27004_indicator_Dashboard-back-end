@@ -106,4 +106,10 @@ public class UserService {
         this.collectorRepository.saveAll(l);
     }
 
+    public User resetPassword(String np, Long id) {
+        User u = this.userRepository.findById(id).orElse(null);
+        u.setPassword(passwordEncoder.encode(np));
+        return this.userRepository.save(u);
+    }
+
 }

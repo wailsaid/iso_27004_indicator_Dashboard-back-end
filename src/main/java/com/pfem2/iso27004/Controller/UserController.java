@@ -40,6 +40,12 @@ public class UserController {
         return userservice.addUser(user);
     }
 
+    @PutMapping(path = "reset/{id}")
+    public User resetP(@RequestBody String np, @PathVariable("id") Long id) {
+        return this.userservice.resetPassword(np, id);
+
+    }
+
     @GetMapping(path = "collector")
     public List<Collector> getCollectors() {
 
@@ -55,9 +61,12 @@ public class UserController {
 
     @PutMapping(path = "collector")
     public Collector updateCollector(@RequestBody Collector c) {
-        List<Collector> l = this.userservice.getCollectors().stream().filter(cl -> !(cl.getId()).equals(c.getId()))
-                .toList();
-        System.out.println(l);
+        /*
+         * List<Collector> l = this.userservice.getCollectors().stream().filter(cl ->
+         * !(cl.getId()).equals(c.getId()))
+         * .toList();
+         * System.out.println(l);
+         */
         return this.userservice.setCollector(c);
     }
 

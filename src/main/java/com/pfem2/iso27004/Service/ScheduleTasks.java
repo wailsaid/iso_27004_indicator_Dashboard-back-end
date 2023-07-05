@@ -40,8 +40,8 @@ public class ScheduleTasks {
 
     // @Scheduled(cron = "0 0 0 * * ?")
     //
-    // @Scheduled(cron = "0 0 9 1,20 * *")
-    @Scheduled(fixedDelay = 1000 * 60 * 3)
+    //@Scheduled(fixedDelay = 1000 * 60 * 3)
+    @Scheduled(cron = "0 0 9 1,20 * *")
     public void scheduleFixedDelayTask() {
         List<Collector> collectors = this.userService.getCollectors();
         for (Collector c : collectors) {
