@@ -147,12 +147,14 @@
       <thead>
         <tr>
           <th>Evaluation Date</th>
+          <th>Evaluated by</th>
           <th>Value</th>
           <th>Status</th>
         </tr>
       </thead>
       <tr th:each=" evals: ${item.value}">
         <td style="padding: 5px;" th:text="${evals.getEvaluationDate().toString().substring(0,10)}"></td>
+        <td style="padding: 5px;" th:text="${evals.getResp().getUsername()}"></td>
         <td style="padding: 5px;" th:text="${evals.getValue()}"></td>
         <td style="padding: 5px;" th:text="${evals.getStatus()}"></td>
       </tr>

@@ -46,23 +46,24 @@ public class ScheduleTasks {
         List<Collector> collectors = this.userService.getCollectors();
         for (Collector c : collectors) {
             List<Indicator> l = new ArrayList<Indicator>();
-            System.out.println(c.getCollector());
             for (Indicator i : c.getIndicator()) {
 
                 Evaluation e = this.evaluationService.getLatestInicatorEvaluation(i.getId());
+                if (e != null) {
 
-                Calendar nextMonth = Calendar.getInstance();
-                nextMonth.add(Calendar.MONTH, 1);
-                Calendar nextEvalDate = Calendar.getInstance();
-                nextEvalDate.setTime(e.getNextEvaluationDate());
+                    Calendar nextMonth = Calendar.getInstance();
+                    nextMonth.add(Calendar.MONTH, 1);
+                    Calendar nextEvalDate = Calendar.getInstance();
+                    nextEvalDate.setTime(e.getNextEvaluationDate());
 
-                if (nextEvalDate.get(Calendar.YEAR) == nextMonth.get(Calendar.YEAR)
-                        && nextEvalDate.get(Calendar.MONTH) == nextMonth.get(Calendar.MONTH)) {
-                    if (!l.contains(i)) {
-                        l.add(i);
+                    if (nextEvalDate.get(Calendar.YEAR) == nextMonth.get(Calendar.YEAR)
+                            && nextEvalDate.get(Calendar.MONTH) == nextMonth.get(Calendar.MONTH)) {
+                        if (!l.contains(i)) {
+                            l.add(i);
+
+                        }
 
                     }
-
                 }
             }
             if (l.size() > 0) {
