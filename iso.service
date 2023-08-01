@@ -1,0 +1,14 @@
+[Unit]
+Description = Dashboard app for iso270004 indicator
+After = syslog.target
+
+[Service]
+User = daemon
+WorkingDirectory = path/to/the/app
+ExecStart = java -jar target/iso27004-0.1.1-SNAPSHOT.jar
+SuccessExitStatus = 143
+Restart = always
+RestartSec = 30
+
+[Install]
+WantedBy = multi-user.target
