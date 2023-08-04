@@ -1,6 +1,6 @@
 [Unit]
 Description = Dashboard app for iso270004 indicator
-After = syslog.target
+After = syslog.target mysql.service
 
 [Service]
 User = daemon
